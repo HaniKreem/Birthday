@@ -3,77 +3,116 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Birthday!</title>
+  <title>Birthday Terminal</title>
   <style>
-    body {
-      background-color: #0d1117;
-      color: #58a6ff;
-      font-family: monospace;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      margin: 0;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-    #terminal {
-      border: 1px solid #30363d;
-      padding: 20px;
-      background: #161b22;
-      border-radius: 8px;
-      max-width: 90%;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-    }
-    .cake {
-      color: #ff7b72;
-      white-space: pre;
-      line-height: 1.2;
-      text-align: center;
-      font-size: 14px;
-    }
-    p {
-      font-size: 16px;
-      line-height: 1.4;
-      word-break: break-word;
-    }
-    .cursor {
-      display: inline-block;
-      width: 8px;
-      background: #58a6ff;
-      animation: blink 1s infinite;
-    }
-    @keyframes blink { 50% { opacity: 0; } }
+    body { background: #0d1117; color: #58a6ff; font-family: monospace; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+    .term { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 20px; width: 100%; max-width: 500px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: center; }
+    pre { color: #ff7b72; font-family: monospace; font-size: 13px; line-height: 1.15; display: inline-block; text-align: left; margin: 0 auto; }
+    button { background: #238636; color: #fff; border: none; padding: 12px 20px; border-radius: 6px; font-weight: bold; font-family: monospace; font-size: 14px; margin-top: 15px; cursor: pointer; width: 100%; }
+    button:active { background: #2ea043; }
   </style>
 </head>
 <body>
-  <div id="terminal">
-    <div class="cake">
-      i i i i i
-     |: : : : :|
-   __|_ : : : _|__
-  |               |
-  |~ ~ ~ ~ ~ ~ ~ ~|
-  |_______________|
-    </div>
-    <p>&gt; <span id="typed"></span><span class="cursor">&nbsp;</span></p>
+  <div class="term">
+<pre>
+     *                                             *
+                                          *
+               *
+                             *
+                                                       *
+    *
+                                             *
+        *
+                      *             *
+                                                *
+ *                                                               *
+          *
+                          (             )
+                  )      (*)           (*)      (
+         *       (*)      |             |      (*)
+                  |      |~|           |~|      |          *
+                 |~|     | |           | |     |~|
+                 | |     | |           | |     | |
+                ,| |a@@@@| |@@@@@@@@@@@| |@@@@a| |.
+           .,a@@@| |@@@@@| |@@@@@@@@@@@| |@@@@@| |@@@@a,.
+         ,a@@@@@@| |@@@@@@@@@@@@.@@@@@@@@@@@@@@| |@@@@@@@a,
+        a@@@@@@@@@@@@@@@@@@@@@' . `@@@@@@@@@@@@@@@@@@@@@@@@a
+        ;`@@@@@@@@@@@@@@@@@@'   .   `@@@@@@@@@@@@@@@@@@@@@';
+        ;@@@`@@@@@@@@@@@@@'     .     `@@@@@@@@@@@@@@@@'@@@;
+        ;@@@;,.aaaaaaaaaa       .       aaaaa,,aaaaaaa,;@@@;
+        ;;@;;;;@@@@@@@@;@      @.@      ;@@@;;;@@@@@@;;;;@@;
+        ;;;;;;;@@@@;@@;;@    @@ . @@    ;;@;;;;@@;@@@;;;;;;;
+        ;;;;;;;;@@;;;;;;;  @@   .   @@  ;;;;;;;;;;;@@;;;;@;;
+        ;;;;;;;;;;;;;;;;;@@     .     @@;;;;;;;;;;;;;;;;@@@;
+    ,%%%;;;;;;;;@;;;;;;;;       .       ;;;;;;;;;;;;;;;;@@;;%%%,
+ .%%%%%%;;;;;;;@@;;;;;;;;     ,%%%,     ;;;;;;;;;;;;;;;;;;;;%%%%%%,
+.%%%%%%%;;;;;;;@@;;;;;;;;   ,%%%%%%%,   ;;;;;;;;;;;;;;;;;;;;%%%%%%%,
+%%%%%%%%`;;;;;;;;;;;;;;;;  %%%%%%%%%%%  ;;;;;;;;;;;;;;;;;;;'%%%%%%%%
+%%%%%%%%%%%%`;;;;;;;;;;;;,%%%%%%%%%%%%%,;;;;;;;;;;;;;;;'%%%%%%%%%%%%
+`%%%%%%%%%%%%%%%%%,,,,,,,%%%%%%%%%%%%%%%,,,,,,,%%%%%%%%%%%%%%%%%%%%'
+  `%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
+      `%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
+             """"""""""""""`,,,,,,,,,'"""""""""""""""""
+                            `%%%%%%%'
+                             `%%%%%'
+                               %%%     
+                              %%%%%
+                           .,%%%%%%%,.
+                      ,%%%%%%%%%%%%%%%%%%%,
+
+</pre>
+    <p style="text-align: center; margin-top: 15px;">Happy Birthday Mickalo! </p>
+    <p style="text-align: center; color: #79c0ff;"> Wishing you a fun birthday and a wonderful year ahead <3 </p>
+    <button id="btn" onclick="fire()"> * * EXECUTE CELEBRATION * * </button>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   <script>
-    const text = "Happy Birthday Mickalo! Wishing you a fun birthday and a wonderful year ahead <3');";
-    let idx = 0;
-    function type() {
-      if (idx < text.length) {
-        document.getElementById('typed').innerHTML += text.charAt(idx);
-        idx++;
-        setTimeout(type, 40);
-      } else if (typeof confetti === 'function') {
-        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-      }
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    let audioCtx;
+
+    // Happy Birthday note frequencies in Hz
+    const notes = [
+      { f: 264, d: 0.3 }, { f: 264, d: 0.3 }, { f: 297, d: 0.6 }, { f: 264, d: 0.6 }, { f: 352, d: 0.6 }, { f: 330, d: 1.2 },
+      { f: 264, d: 0.3 }, { f: 264, d: 0.3 }, { f: 297, d: 0.6 }, { f: 264, d: 0.6 }, { f: 396, d: 0.6 }, { f: 352, d: 1.2 },
+      { f: 264, d: 0.3 }, { f: 264, d: 0.3 }, { f: 528, d: 0.6 }, { f: 440, d: 0.6 }, { f: 352, d: 0.6 }, { f: 330, d: 0.6 }, { f: 297, d: 1.2 },
+      { f: 466, d: 0.3 }, { f: 466, d: 0.3 }, { f: 440, d: 0.6 }, { f: 352, d: 0.6 }, { f: 396, d: 0.6 }, { f: 352, d: 1.2 }
+    ];
+
+    function playTone(freq, duration, startTime) {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      
+      osc.type = 'square'; // 8-bit chiptune sound
+      osc.frequency.setValueAtTime(freq, startTime);
+      
+      gain.gain.setValueAtTime(0.08, startTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration - 0.05);
+      
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      
+      osc.start(startTime);
+      osc.stop(startTime + duration);
     }
-    setTimeout(type, 500);
+
+    function playHappyBirthday() {
+      if (!audioCtx) audioCtx = new AudioCtx();
+      let now = audioCtx.currentTime;
+      
+      notes.forEach(note => {
+        playTone(note.f, note.d, now);
+        now += note.d + 0.05; // slight pause between notes
+      });
+    }
+
+    function fire() {
+      playHappyBirthday();
+      if (typeof confetti === 'function') {
+        confetti({ particleCount: 180, spread: 80, origin: { y: 0.6 } });
+      }
+      document.getElementById('btn').innerText = "[REPLAY MUSIC]";
+    }
   </script>
 </body>
 </html>
