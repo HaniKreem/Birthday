@@ -1,0 +1,14 @@
+import time
+import sys
+
+wish = """
+ [!] INITIALIZING BIRTHDAY_ROUTINE...
+ [!] SUCCESS: Age incremented by 1.
+ [!] STATUS: Zero bugs detected.
+ [>] Happy Birthday! Wishing you unlimited uptime and high performance!
+"""
+
+for char in wish:
+    sys.stdout.write(char)
+    sys.stdout.flush()
+    time.sleep(0.03)
