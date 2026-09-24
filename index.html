@@ -1,1 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { background: #0d1117; color: #58a6ff; font-family: monospace; display: flex; 
+           flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+    #terminal { border: 1px solid #30363d; padding: 20px; background: #161b22; borderRadius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+    .cake { color: #ff7b72; white-space: pre; line-height: 1.2; text-align: center; }
+    .cursor { display: inline-block; width: 8px; background: #58a6ff; animation: blink 1s infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+  </style>
+</head>
+<body>
+  <div id="terminal">
+    <div class="cake">
+      i i i i i
+     |: : : : :|
+   __|_ : : : _|__
+  |               |
+  |~ ~ ~ ~ ~ ~ ~ ~|
+  |_______________|
+    </div>
+    <p>> <span id="typed"></span><span class="cursor">&nbsp;</span></p>
+  </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <script>
+    const text = "Happy Birthday Mickalo! Wishing you a fun birthday and a wonderful year ahead <3.');";
+    let idx = 0;
+    function type() {
+      if (idx < text.length) {
+        document.getElementById('typed').innerHTML += text.charAt(idx);
+        idx++;
+        setTimeout(type, 50);
+      } else {
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+      }
+    }
+    setTimeout(type, 500);
+  </script>
+</body>
+</html>
